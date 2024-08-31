@@ -45,6 +45,7 @@ function Courses() {
     const handleUpdate = (courseId) => {
 
     }
+    
   return (
     <div style={{ padding: "5vh", display: "flex", justifyContent: "center", gap: "2vh", flexWrap: "wrap" }}>
         {courses.map((course) => (

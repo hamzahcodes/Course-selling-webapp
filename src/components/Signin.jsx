@@ -35,8 +35,8 @@ function Signin() {
       })
       .then(function (data) {
         console.log(data);
-        login(email)
         localStorage.setItem("token", data.token);
+        login()
         navigate('/createCourse')
       })
       .catch(function (error) {

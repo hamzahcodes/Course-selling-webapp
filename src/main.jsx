@@ -1,7 +1,7 @@
 import React from 'react'
 import ReactDOM from 'react-dom/client'
-import Signin from './components/Signin'
-import Signup from './components/Signup'
+import Login from './pages/Login'
+import Signup from './pages/Signup'
 import App from './App'
 import Home from './components/Home'
 import AddCourse from './components/AddCourse'
@@ -15,7 +15,7 @@ const router = createBrowserRouter(
     <Route path='/' element={<App />}>
       <Route path='' element={<Home />} />
       <Route path='signup' element={<Signup />} />
-      <Route path='signin' element={<Signin />} />
+      <Route path='login' element={<Login />} />
       <Route path='createCourse' element={<AddCourse />} />
       <Route path='courses' element={<Courses />} />
     </Route>

@@ -12,6 +12,7 @@ function Appbar() {
           Coursify    
         </Typography>
       </Link>
+      { console.log('user', user)}
       {
         user
       ? 
@@ -33,8 +34,8 @@ function Appbar() {
           <Link to={'/signup'}>
             <Button variant='contained' style={{ marginRight: "1vw"}}>Sign up</Button>
           </Link>
-          <Link to={'/signin'}>
-            <Button variant='contained'>Sign in</Button>
+          <Link to={'/login'}>
+            <Button variant='contained'>Login</Button>
           </Link>
         </div>
       }
