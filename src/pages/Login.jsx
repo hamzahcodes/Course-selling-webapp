@@ -1,7 +1,8 @@
 import React, { useState } from 'react'
 import { Alert } from "@mui/material";
 import AuthForm from '../components/AuthForm';
-
+import { useNavigate } from 'react-router-dom';
+import { useAuth } from '../AuthContext'
 
 const Login = () => {
     const [ email, setEmail ] = useState('');
@@ -9,6 +10,8 @@ const Login = () => {
     const [type, setType] = useState('user')
     const [ alert, setAlert ] = useState(false);
     const [ error, setError ] = useState(true);
+    const { login } = useAuth()
+    const navigate = useNavigate();
 
     const handleLogin = async (e) => {
         e.preventDefault()
@@ -18,10 +21,11 @@ const Login = () => {
             return
         }
 
-        const response = await fetch(`http://localhost:3000/${type}/login`, {
+        const url = `http://localhost:3000/${type}/login`
+        const response = await fetch(url, {
           method: "POST",
           body: JSON.stringify({
-            email, password
+            username: email, password
           }),
           headers: {
             "Content-type": "application/json"
@@ -34,8 +38,9 @@ const Login = () => {
         } else {
           const data = await response.json()
           localStorage.setItem("token", data.token);
-          login()
-          navigate('/createCourse')
+          login(email)
+          console.log("in login success");
+          navigate('/courses', { replace: true })
         }
     }
 

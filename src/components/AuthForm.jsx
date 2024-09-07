@@ -36,7 +36,7 @@ const AuthForm = ({
         >
             <Card
                 style={{
-                    padding: "40px",
+                    padding: "20px 40px",
                     display: "flex",
                     justifyContent: "center",
                     alignItems: "center",

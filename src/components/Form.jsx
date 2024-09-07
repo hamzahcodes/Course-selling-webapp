@@ -1,5 +1,6 @@
-import { Button, Card, Checkbox, Snackbar, TextField, Typography } from '@mui/material'
+import { Alert, Button, Card, Checkbox, Snackbar, TextField, Typography } from '@mui/material'
 import React from 'react'
+import AlertBox from './AlertBox'
 
 function Form({ }) {
     const [title, setTitle] = React.useState("");
@@ -7,7 +8,11 @@ function Form({ }) {
     const [price, setPrice] = React.useState(0);
     const [ published, setPublished ] = React.useState(false);
     const label = { inputProps: { 'aria-label': 'Checkbox demo' } };
-    const [open, setOpen] = React.useState('');
+    const [open, setOpen] = React.useState(false);
+  
+    const handleClose = () => {
+      setOpen(false);
+    };
 
     function handleCreateCourse() {
         fetch(
@@ -25,9 +30,9 @@ function Form({ }) {
         )
           .then((response) => response.json())
           .then((data) => {
-            setOpen(data.message)
+            setOpen(true)
             console.log(data)
-            })
+          })
           .catch((err) => console.log(err))
           .finally(() => {
             setTitle("")
@@ -47,13 +52,7 @@ function Form({ }) {
         height: "80%",
       }}
     > 
-        <Snackbar
-            open={open?.length === 0 ? false : true}
-            autoHideDuration={3000}
-            onClose={() => setOpen('')}
-            message={open}
-            key={`topcenter`}
-        />
+      <AlertBox open={open} handleClose={handleClose} message={`Course created successfully`}/>
      
       <Typography
         variant="h6"

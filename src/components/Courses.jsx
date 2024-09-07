@@ -1,10 +1,16 @@
-import { Alert, Button, Card, CardActions, CardContent, Typography } from '@mui/material';
+import { Alert, Button, Card, CardActions, CardContent, Container, Grid, Typography } from '@mui/material';
 import React from 'react'
+import Course from './Course';
+import AlertBox from './AlertBox';
 
 function Courses() {
     const [ courses, setCourses ] = React.useState([])
     const [ loading, setLoading ] = React.useState(true);
-    const [ alert, setAlert ] = React.useState(false);
+    const [open, setOpen] = React.useState(false);
+  
+    const handleClose = () => {
+      setOpen(false);
+    };
 
     React.useEffect(() => {
         setLoading(true);
@@ -31,15 +37,15 @@ function Courses() {
             }
         })
         .then(() => {
-            setAlert(true);
+            setOpen(true);
             setCourses(courses.filter((course) => course._id !== courseId))
         })
         .catch((err) => console.log(err))
-        .finally(() => {
-            setTimeout(() => {
-                setAlert(false)
-            }, 3000);
-        });
+        // .finally(() => {
+        //     setTimeout(() => {
+        //         setAlert(false)
+        //     }, 3000);
+        // });
     };
 
     const handleUpdate = (courseId) => {
@@ -47,42 +53,27 @@ function Courses() {
     }
     
   return (
-    <div style={{ padding: "5vh", display: "flex", justifyContent: "center", gap: "2vh", flexWrap: "wrap" }}>
-        {courses.map((course) => (
-            <Card key={course._id} variant='outline' style={{ width: "30vw", minWidth: "250px" }}>
-                <CardContent>
-                    <Typography variant="h5" component="div">
-                        {course.title}
-                    </Typography>
-                    <Typography sx={{ mb: 1.5 }} color="text.secondary">
-                        {course.published ? "Published" : "Unpublished" }
-                    </Typography>
-                    <Typography variant="body2">
-                        {course.description}
-                    </Typography>
-                </CardContent>
-                <CardActions>
-                    <Button size="small">Price: {course.price}</Button>
-                </CardActions>
-                <div style={{ display: "flex", justifyContent: "end", alignItems: "center"}}>
-                    <CardActions>
-                        <Button size="small" variant='contained' color='success' onClick={() => handleUpdate(course._id)}>Update</Button>
-                    </CardActions>
-                    <CardActions>
-                        <Button size="small" variant='contained' color='error' onClick={() => handleDelete(course._id)}>Delete</Button>
-                    </CardActions>
-                </div>
-                
-            </Card>
+    
+    <Grid container spacing={2}>
+        <AlertBox open={open} handleClose={handleClose} message={`Course Deleted successfully`}/>
+        <Typography variant='h5'>Published Courses</Typography>
+        <Grid container spacing={2}>
+        {courses.filter(course => course.published).map((course) => (
+            <Grid item key={course._id}>
+                <Course course={course} handleDelete={handleDelete} handleUpdate={handleUpdate}/>
+            </Grid>
         ))}
+        </Grid>
 
-        {alert && 
-            <div style={{ position: 'absolute', top: "5vh"}}>
-                <Alert severity="success">Deleted successfully</Alert>
-            </div>
-        }
-
-    </div>
+        <Typography variant='h5'>Unpublished Courses</Typography>
+        <Grid container spacing={2}>
+        {courses.filter(course => !course.published).map((course) => (
+            <Grid item key={course._id}>
+                <Course course={course} handleDelete={handleDelete} handleUpdate={handleUpdate}/>
+            </Grid>
+        ))}
+        </Grid>
+    </Grid>
   )
 }
 
